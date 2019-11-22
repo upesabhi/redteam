@@ -9,7 +9,6 @@ resource "aws_default_vpc" "default" {
 }
 
 
-
 locals {
   timestamp = "${timestamp()}"
 }
@@ -29,6 +28,12 @@ resource "aws_security_group" "MasterSG" {
 
     
     
+  }
+  ingress {
+    # TLS (change to whatever ports you need)
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
   }
 
   ingress {
@@ -54,10 +59,19 @@ resource "aws_security_group" "NodeSG" {
     to_port     = 8080
     protocol    = "tcp"
 
+
+
     
     # Please restrict your ingress to only necessary IPs and ports.
     # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
     #cidr_blocks = # add a CIDR block here
+  }
+
+  ingress {
+    # TLS (change to whatever ports you need)
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
   }
 
   ingress {
