@@ -17,7 +17,7 @@ output "timestamp" {
 }
 
 resource "aws_security_group" "MasterSG" {
-  name        = "redmasterSG-${local.timestamp}"
+  name        = "redmasterSG"
   description = "Allow TLS inbound traffic"
   vpc_id      = "${aws_default_vpc.default.id}"
   ingress {
@@ -25,6 +25,7 @@ resource "aws_security_group" "MasterSG" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
 
     
     
@@ -34,6 +35,7 @@ resource "aws_security_group" "MasterSG" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -41,6 +43,7 @@ resource "aws_security_group" "MasterSG" {
     from_port   = 50000
     to_port     = 50000
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
 
     
     #
@@ -50,7 +53,7 @@ resource "aws_security_group" "MasterSG" {
 
 
 resource "aws_security_group" "NodeSG" {
-  name        = "rednodeSG-${local.timestamp}"
+  name        = "rednodeSG"
   description = "Allow TLS inbound traffic"
   vpc_id      = aws_default_vpc.default.id
   ingress {
@@ -58,6 +61,7 @@ resource "aws_security_group" "NodeSG" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
 
 
 
@@ -72,6 +76,8 @@ resource "aws_security_group" "NodeSG" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    
   }
 
   ingress {
@@ -79,6 +85,7 @@ resource "aws_security_group" "NodeSG" {
     from_port   = 50000
     to_port     = 50000
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
 
     
     # Please restrict your ingress to only necessary IPs and ports.
