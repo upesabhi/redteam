@@ -8,9 +8,7 @@ resource "aws_default_vpc" "default" {
   }
 }
 
-output "vpcid" {
-  value = aws_default_vpc.default.id
-}
+
 
 locals {
   timestamp = "${timestamp()}"
@@ -20,7 +18,7 @@ output "timestamp" {
 }
 
 resource "aws_security_group" "MasterSG" {
-  name        = "redmasterSG"
+  name        = "redmasterSG-${local.timestamp}"
   description = "Allow TLS inbound traffic"
   vpc_id      = "${aws_default_vpc.default.id}"
   ingress {
@@ -44,8 +42,10 @@ resource "aws_security_group" "MasterSG" {
   }
 }
 
+
+
 resource "aws_security_group" "NodeSG" {
-  name        = "rednodeSG"
+  name        = "rednodeSG-${local.timestamp}"
   description = "Allow TLS inbound traffic"
   vpc_id      = aws_default_vpc.default.id
   ingress {
@@ -71,6 +71,23 @@ resource "aws_security_group" "NodeSG" {
     # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
     #cidr_blocks = # add a CIDR block here
   }
+}
+
+
+# output ID's
+output "vpcid" {
+  value = aws_default_vpc.default.id
+}
+
+
+output "sgmaster" {
+  value = aws_security_group.MasterSG.id
+  
+}
+
+output "sgnode" {
+  
+  value = aws_security_group.NodeSG.id
 }
   
   
