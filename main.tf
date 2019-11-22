@@ -7,6 +7,12 @@ resource "aws_default_vpc" "default" {
     Name = "Red VPC"
   }
 }
+
+output "vpcid" {
+  value = aws_default_vpc.default.id
+}
+
+#
 # resource "aws_security_group" "Master SG" {
 #   name        = "allow_tls"
 #   description = "Allow TLS inbound traffic"
